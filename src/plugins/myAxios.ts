@@ -4,7 +4,7 @@ const isDev = process.env.NODE_ENV === 'development';
 
 // 创建实例时配置默认值
 const myAxios: AxiosInstance = axios.create({
-    baseURL: isDev ? 'http://localhost:8080/api' : 'http://124.221.121.35:8080/api',
+    baseURL: isDev ? 'http://localhost:8080/api' : 'https://124.221.121.35:8080/api',
 });
 
 myAxios.defaults.withCredentials = true;
