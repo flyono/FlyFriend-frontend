@@ -4,7 +4,7 @@ const isDev = process.env.NODE_ENV === 'development';
 
 // 创建实例时配置默认值
 const myAxios: AxiosInstance = axios.create({
-    baseURL: isDev ? 'http://localhost:8080/api' : 'https://friend-frontend-khaki.vercel.app/',
+    baseURL: isDev ? 'http://124.221.121.35:8080/api' : 'https://friend-frontend-khaki.vercel.app/',
 });
 
 myAxios.defaults.withCredentials = true;
