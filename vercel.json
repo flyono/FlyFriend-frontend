@@ -1,8 +1,8 @@
 {
-  "rewrites": [
+  "routes": [
     {
-      "source": "/api/(.*)",
-      "destination": "/api/proxy"
+      "src": "/api/(.*)",
+      "dest": "http://124.221.121.35:8080/api/$1"
     }
   ]
 }
