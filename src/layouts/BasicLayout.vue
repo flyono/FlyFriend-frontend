@@ -35,7 +35,8 @@ const title = ref(DEFAULT_TITLE)
 /**
  * 根据路由切换标题
  */
-router.beforeEach((to, from) => {
+
+router.beforeEach((to) => {
   const toPath = to.path;
   const route = routes.find((route) => {
     return toPath === route.path;
