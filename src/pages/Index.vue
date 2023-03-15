@@ -25,7 +25,9 @@ const isMatchMode = ref<boolean>(false)
 
 const userList = ref([]);//存放用户列表
 const loading = ref(true);
-
+/**
+ * 首页数据加载
+ */
 const loadData = async () => {
   let userListData = [];
   loading.value = true;

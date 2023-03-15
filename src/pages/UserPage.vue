@@ -26,12 +26,18 @@
     <van-cell title="我加入的队伍" is-link to="/user/team/join" />
 
     <van-cell title="注册时间" :value="user.createTime.toLocaleString()"/>
+    <van-cell/>
+    <van-cell/>
+
+    <van-button type="danger" plain block @click="userLogout">退出登录</van-button>
   </template>
 </template>
 <script setup lang="ts">
 import {useRouter} from "vue-router";
 import {onMounted, ref} from "vue";
 import {getCurrentUser} from "../services/user";
+import {Dialog, Toast} from "vant";
+import myAxios from "../plugins/myAxios";
 
 // const user = {
 //   id: 1,
@@ -48,6 +54,9 @@ import {getCurrentUser} from "../services/user";
 // };
 
 const user = ref()
+
+const logoutDialog = Dialog.Component;
+
 
 onMounted(async () => {
   user.value = await getCurrentUser();
@@ -79,6 +88,22 @@ const toEdit = (editKey: string, editName: string, currentValue: string, type: s
 //   })
 // }
 
+/**
+ * 退出登录
+ */
+const userLogout = () => {
+  Dialog.confirm({
+    title: '确认退出？',
+  })
+      .then( async () => {
+        const res = await myAxios.post('/user/logout');
+        if(res.code === 0 && res.data > 0){
+          Toast.success('已退出');
+          await router.replace("/user/login");
+        }
+      })
+      .catch()
+}
 /**
  * 处理时间 todo
  */

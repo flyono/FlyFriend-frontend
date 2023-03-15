@@ -39,6 +39,9 @@ const route = useRoute()
 
 const userAccount = ref('');
 const userPassword = ref('');
+/**
+ * 登录接口
+ */
 const onSubmit = async () => {
   const res = await myAxios.post('/user/login',{
     userAccount: userAccount.value,
@@ -53,6 +56,9 @@ const onSubmit = async () => {
     Toast.fail('登录失败')
   }
 };
+/**
+ * 注册跳转
+ */
 const doRegister = () => {
   router.push({
     path: "/user/register"

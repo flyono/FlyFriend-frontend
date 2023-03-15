@@ -1,10 +1,10 @@
 <template>
   <van-form @submit="onSubmit">
     <van-field v-if="editUser.type === 'string'"
-        v-model="editUser.currentValue"
-        :name="editUser.editKey"
-        :label="editUser.editName"
-        :placeholder="`请输入${editUser.editName}`"
+               v-model="editUser.currentValue"
+               :name="editUser.editKey"
+               :label="editUser.editName"
+               :placeholder="`请输入${editUser.editName}`"
     />
     <van-field v-if="editUser.type === 'gender'"
                v-model="gender"
@@ -25,24 +25,9 @@
     </van-popup>
 
     <div v-if="editUser.type === 'image'" class="imgPosition">
-<!--      <van-button size="mini" plain type="primary">当前头像</van-button>-->
-<!--    <van-uploader v-model="imageList" :deletable="true" max-count="2" />-->
-<!--      <van-button size="mini" plain type="primary">更换头像</van-button>-->
-      <van-image :src="route.query.currentValue" fit="cover" />
-      <van-uploader
-          v-model="imageList"
-          :after-read="afterRead"
-          accept="image/*"
-          capture="camera"
-          :max-count="1"
-          :preview-size="200"
-          :preview-image="false"
-          :preview-options="{ showIndicator: false }"
-      >
-        <template #upload>
-          <div class="van-uploader__text">上传头像</div>
-        </template>
-      </van-uploader>
+      <van-button size="mini" plain type="primary">当前头像</van-button>
+      <van-uploader v-model="imageList" :deletable="true" max-count="2"/>
+      <van-button size="mini" plain type="primary">更换头像</van-button>
     </div>
 
     <div style="margin: 16px;">
@@ -64,7 +49,7 @@ import {Toast} from "vant";
 import {getCurrentUser} from "../services/user";
 
 const route = useRoute();
-const router =useRouter();
+const router = useRouter();
 
 /**
  * 基础信息修改
@@ -95,17 +80,20 @@ const options = [
     value: 1,
   },
 ];
-const onFinish = ( { selectedOptions } ) => {
+const onFinish = ({selectedOptions}) => {
   show.value = false;
-  gender.value = selectedOptions.map((option: { text: any; }) => option.text).join('/');
-  genderValue.value = selectedOptions.map((option: { value: any; }) => option.value).join('/');
+  console.log(selectedOptions)
+  gender.value = selectedOptions.map((option) => option.text);
+  // genderValue.value = selectedOptions.map((option) => option.value);
+  editUser.value.currentValue = selectedOptions.map((option) => option.value)[0];
+
 };
 
 /**
  * 头像信息修改
  */
 
-const imageList =  ref([
+const imageList = ref([
   // Uploader 根据文件后缀来判断是否为图片文件
   // 如果图片 URL 中不包含类型信息，可以添加 isImage 标记来声明
 ]);
@@ -114,15 +102,19 @@ console.log("头像列表");
 console.log(imageList);
 
 /**
- * 信息提交
+ * 修改信息提交
  */
 const onSubmit = async () => {
   // 异步方法必须添加 await 才可以拿到数据, 否则拿到的是 promise 对象
   const currentUser = await getCurrentUser();
+  console.log("性别号码")
+  console.log(editUser.value?.currentValue)
+  console.log('--------------')
+  console.log(genderValue.value)
   console.log("-------UserEditPage", currentUser);
   const res = await myAxios.post("/user/update", {
     "id": currentUser.id,
-    [editUser.value.editKey as string]: editUser.value?.currentValue ?? genderValue.value // 动态取值
+    [editUser.value.editKey as string]: editUser.value.currentValue // 动态取值
   })
   console.log("修改用户信息", res);
   if (res.code === 0 && res.data > 0) {
