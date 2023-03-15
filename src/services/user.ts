@@ -12,7 +12,7 @@ export const getCurrentUser = async () => {
     }
     //从远程处获取用户信息
     const res = await myAxios.get("/user/current");
-    if (res.code == 0 ) {
+    if (res.code === 0 ) {
         // setCurrentUserState(res.data);
         return res.data;
     }

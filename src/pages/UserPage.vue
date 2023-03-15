@@ -25,7 +25,7 @@
     <van-cell title="我创建的队伍" is-link to="/user/team/create" />
     <van-cell title="我加入的队伍" is-link to="/user/team/join" />
 
-    <van-cell title="注册时间" :value="user.createTime.toLocaleString()"/>
+    <van-cell title="注册时间" :value="user.createTime"/>
     <van-cell/>
     <van-cell/>
 
@@ -55,8 +55,7 @@ import myAxios from "../plugins/myAxios";
 
 const user = ref()
 
-const logoutDialog = Dialog.Component;
-
+let time = '';
 
 onMounted(async () => {
   user.value = await getCurrentUser();
@@ -66,6 +65,12 @@ onMounted(async () => {
   // } else {
   //   Toast.fail('获取用户信息失败');
   // }
+  console.log('用户信息')
+  /**
+   * 处理时间
+   */
+  time = user.value.createTime;
+  user.value.createTime = time.split('T')[0];
 })
 
 const router = useRouter();
@@ -104,9 +109,9 @@ const userLogout = () => {
       })
       .catch()
 }
-/**
- * 处理时间 todo
- */
+
+
+
 
 </script>
 
