@@ -1,7 +1,7 @@
 import axios, {AxiosInstance} from "axios";
 
 const isDev = process.env.NODE_ENV === 'development';
-
+export const imageUrl = isDev ? 'http://localhost:8080/api/images/' : 'https://backend.flyone.space/api/images/';
 // 创建实例时配置默认值
 const myAxios: AxiosInstance = axios.create({
     baseURL: isDev ? 'http://localhost:8080/api' : 'https://backend.flyone.space/api',

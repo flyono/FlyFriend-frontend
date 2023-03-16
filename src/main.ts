@@ -7,6 +7,7 @@ import 'vant/lib/index.css'
 import '/global.css'
 
 
+
 const app = createApp(App);
 
 app.use(Button);
@@ -14,7 +15,6 @@ app.use(NavBar);
 app.use(Icon);
 app.use(Tabbar);
 app.use(TabbarItem);
-
 
 // 创建路由实例并传递 `routes` 配置
 const router = VueRouter.createRouter({
@@ -25,4 +25,3 @@ const router = VueRouter.createRouter({
 app.use(router)
 
 app.mount('#app')
-

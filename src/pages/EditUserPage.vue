@@ -25,8 +25,7 @@
     </van-popup>
 
     <div v-if="editUser.type === 'image'" class="imgPosition">
-      <van-button size="mini" plain type="primary">当前头像</van-button>
-      <van-uploader v-model="imageList" :deletable="true" max-count="2"/>
+      <van-uploader v-model="imageList" max-count="1" :after-read="afterRead"/>
       <van-button size="mini" plain type="primary">更换头像</van-button>
     </div>
 
@@ -44,7 +43,7 @@
 <script setup lang="ts">
 import {useRoute, useRouter} from "vue-router";
 import {ref} from "vue";
-import myAxios from "../plugins/myAxios";
+import myAxios, {imageUrl} from "../plugins/myAxios";
 import {Toast} from "vant";
 import {getCurrentUser} from "../services/user";
 
@@ -66,7 +65,7 @@ const editUser = ref({
 /**
  * 性别信息修改
  */
-const gender = ref(route.query.currentValue === '0' ? '男' : '女');
+const gender = ref(route.query.currentValue === null ? '' : route.query.currentValue === '0' ? '男' : '女');
 const show = ref(false);
 const genderValue = ref('');
 
@@ -82,7 +81,6 @@ const options = [
 ];
 const onFinish = ({selectedOptions}) => {
   show.value = false;
-  console.log(selectedOptions)
   gender.value = selectedOptions.map((option) => option.text);
   // genderValue.value = selectedOptions.map((option) => option.value);
   editUser.value.currentValue = selectedOptions.map((option) => option.value)[0];
@@ -94,12 +92,32 @@ const onFinish = ({selectedOptions}) => {
  */
 
 const imageList = ref([
-  // Uploader 根据文件后缀来判断是否为图片文件
-  // 如果图片 URL 中不包含类型信息，可以添加 isImage 标记来声明
+  {
+    url: imageUrl + editUser.value.currentValue,
+    deletable: true,
+  }
 ]);
-
-console.log("头像列表");
-console.log(imageList);
+const afterRead = (file) => {
+  let formData = new FormData();
+  console.log('文件|');
+  console.log(file.file);
+  formData.append('file', file.file);
+  let config = {
+    headers: {
+      "Content-Type": "multipart/form-data"
+    }
+  };
+  myAxios.post('/user/uploadImage', formData, config)
+      .then(res => {
+        console.log('响应|');
+        console.log(res);
+        if (res.code === 0) {
+          editUser.value.currentValue = res.data;
+        } else {
+          Toast.fail(res.message);
+        }
+      })
+}
 
 /**
  * 修改信息提交
@@ -107,16 +125,10 @@ console.log(imageList);
 const onSubmit = async () => {
   // 异步方法必须添加 await 才可以拿到数据, 否则拿到的是 promise 对象
   const currentUser = await getCurrentUser();
-  console.log("性别号码")
-  console.log(editUser.value?.currentValue)
-  console.log('--------------')
-  console.log(genderValue.value)
-  console.log("-------UserEditPage", currentUser);
   const res = await myAxios.post("/user/update", {
     "id": currentUser.id,
     [editUser.value.editKey as string]: editUser.value.currentValue // 动态取值
   })
-  console.log("修改用户信息", res);
   if (res.code === 0 && res.data > 0) {
     Toast.success("修改成功");
     await router.replace("/user");

@@ -5,7 +5,7 @@
           v-model="userAccount"
           name="账户"
           label="账号"
-          placeholder="账号"
+          placeholder="账号,只能由字母和数字组成"
           :rules="[{ required: true, message: '请填写账号' }]"
       />
       <van-field
