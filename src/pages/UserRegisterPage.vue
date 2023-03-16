@@ -64,7 +64,7 @@ const onRegister = async () => {
   console.log(res, '用户注册');
   if (res.code === 0 && res.data){
     Toast.success('注册成功');
-    window.location.href = 'http://localhost:5173/user';
+    window.location.href = 'https://friends.flyone.space/user';
   }else {
     Toast.fail('注册失败')
   }
