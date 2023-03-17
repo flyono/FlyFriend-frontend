@@ -4,7 +4,7 @@
   >
     <van-card
         v-for="team in props.teamList"
-        thumb="src/assets/team.png"
+        thumb="/team.png"
         :desc="team.description"
         :title="`${team.name}`"
     >
