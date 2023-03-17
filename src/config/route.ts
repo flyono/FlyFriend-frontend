@@ -24,8 +24,8 @@ const routes = [
     {path: '/user/list', title: '用户列表', component: SearchResultPage},
     {path: '/user/login', title: '登录', component: UserLoginPage},
     {path: '/user/register', title: '注册', component: UserRegisterPage},
-    {path: '/user/team/join',  title: '加入队伍',component: UserTeamJoinPage},
-    {path: '/user/team/create', title: '创建队伍', component: UserTeamCreatePage}
+    {path: '/myJoinTeam',  title: '加入队伍',component: UserTeamJoinPage},
+    {path: '/myCreateTeam', title: '创建队伍', component: UserTeamCreatePage}
 ]
 
 export default routes;

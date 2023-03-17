@@ -28,7 +28,7 @@
         <van-popup v-model:show="showPicker" position="bottom">
           <van-datetime-picker
               v-model="addTeamData.expireTime"
-              type="datetime"
+              type="date"
               title="选择过期时间"
               :min-date="minDate"
               @confirm="onConfirm"
@@ -71,42 +71,47 @@ import {onMounted, ref} from "vue";
 import {useRoute, useRouter} from "vue-router";
 import myAxios from "../plugins/myAxios.ts";
 import {Toast} from "vant";
+import {formDate} from "../states/formatDate";
 
 const router = useRouter();
 const route = useRoute();
 
 const id = route.query.id;
 
+const result = ref('');
+const showPicker = ref(false);
+//最小过期时间
+const minDate = new Date();
+//最大过期时间
+
 //用户填写的表单数据
 const addTeamData = ref({})
 
 //获取队伍信息回填表单
 onMounted(async () => {
-  if (id <= 0){
+  if (id <= 0) {
     Toast.fail('加载队伍失败')
     return;
   }
-  const res = await myAxios.get('/team/get',{
+  const res = await myAxios.get('/team/get', {
     params: {
       id,
     }
   });
-  if (res?.code === 0){
+  if (res?.code === 0) {
     addTeamData.value = res.data;
-  }else {
-    Toast.fail('')
+  } else {
+    Toast.fail('无法获取数据')
   }
 })
 
-const result = ref('');
-const showPicker = ref(false);
-const minDate = new Date();
-
+//取消时间选择
 const onConfirm = (value) => {
-  result.value = value;
+  result.value = formDate({date: value});
   showPicker.value = false;
 };
 
+//提交表单数据
 const onSubmit = async () => {
   const postData = {
     ...addTeamData.value,
@@ -114,13 +119,13 @@ const onSubmit = async () => {
   }
 
   const res = await myAxios.post("/team/update", postData)
-  if (res?.code === 0 && res.data){
+  if (res?.code === 0 && res.data) {
     Toast.success('更新成功');
     router.push({
       path: '/team',
       replace: true
     });
-  }else {
+  } else {
     Toast.fail('更新失败');
   }
 }

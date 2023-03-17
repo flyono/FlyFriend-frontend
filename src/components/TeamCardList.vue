@@ -51,7 +51,7 @@
 </template>
 
 <script setup lang="ts">
-import {TeamType} from "../models/team.d";
+import {TeamType} from "../models/team";
 import {teamStatusEnum} from "../constants/team";
 import myAxios from "../plugins/myAxios";
 import {Toast} from "vant";
@@ -90,6 +90,7 @@ const doJoinTeam = async () => {
   if (res?.code === 0) {
     Toast.success('加入成功');
     doJoinCancel();
+    window.location.reload();
   } else {
     Toast.fail('加入失败' + (res.description ? `，${res.description}` : ''));
   }
@@ -139,7 +140,8 @@ const doQuitTeam = async (id: number) => {
     teamId: id
   });
   if (res?.code === 0) {
-    Toast.success('操作成功');
+    Toast.success('已退出队伍');
+    window.location.reload();
   } else {
     Toast.fail('操作失败' + (res.description ? `，${res.description}` : ''));
   }
@@ -154,7 +156,8 @@ const doDeleteTeam = async (id: number) => {
     id,
   });
   if (res?.code === 0) {
-    Toast.success('操作成功');
+    Toast.success('解散成功');
+    window.location.reload();
   } else {
     Toast.fail('操作失败' + (res.description ? `，${res.description}` : ''));
   }

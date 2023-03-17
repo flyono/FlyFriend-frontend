@@ -28,10 +28,11 @@
         <van-popup v-model:show="showPicker" position="bottom">
           <van-datetime-picker
               v-model="addTeamData.expireTime"
-              type="datetime"
+              type="date"
               title="选择过期时间"
               :min-date="minDate"
               @confirm="onConfirm"
+              @cancel="doCancel"
           />
         </van-popup>
 
@@ -77,6 +78,7 @@ import {ref} from "vue";
 import {useRouter} from "vue-router";
 import myAxios from "../plugins/myAxios.ts";
 import {Toast} from "vant";
+import {formDate} from "../states/formatDate.ts";
 
 const router = useRouter();
 
@@ -95,10 +97,15 @@ const result = ref('');
 const showPicker = ref(false);
 const minDate = new Date();
 
+//完成时间选择
 const onConfirm = (value) => {
-  result.value = value;
+  result.value = formDate({date: value});
   showPicker.value = false;
 };
+//取消时间选择
+const doCancel = () => {
+  showPicker.value = false;
+}
 
 const onSubmit = async () => {
   const postData = {
@@ -107,13 +114,13 @@ const onSubmit = async () => {
   }
 
   const res = await myAxios.post("/team/add", postData)
-  if (res?.code === 0 && res.data){
+  if (res?.code === 0 && res.data) {
     Toast.success('添加成功');
     router.push({
       path: '/team',
       replace: true
     });
-  }else {
+  } else {
     Toast.fail('添加失败');
   }
 }

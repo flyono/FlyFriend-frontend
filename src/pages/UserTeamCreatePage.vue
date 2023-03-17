@@ -2,7 +2,7 @@
   <div id="teamPage">
     <van-search v-model="searchText" placeholder="搜索队伍" @search="onSearch"/>
     <van-divider dashed>我创建的队伍</van-divider>
-    <team-card-list :team-list="teamList"></team-card-list>
+    <team-card-list :team-list="teamList"/>
     <van-empty v-if="teamList?.length<1" description="搜索结果为空"/>
   </div>
 
@@ -19,12 +19,6 @@ import {Toast} from "vant";
 const router = useRouter()
 const searchText = ref('')
 
-const doJoinTeam = () => {
-  router.push({
-    path: "team/add"
-  })
-}
-
 const teamList = ref([])
 
 const listTeam = async (val='') => {
@@ -35,6 +29,11 @@ const listTeam = async (val='') => {
   })
   if (res?.code === 0) {
     teamList.value = res.data;
+    teamList.value.map(one => {
+      one.createTime = one.createTime.split('T')[0];
+      one.expireTime = one.expireTime.split('T')[0];
+      return one;
+    })
   } else {
     Toast.fail('加载队伍失败，请刷新重试')
   }

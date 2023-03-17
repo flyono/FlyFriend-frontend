@@ -2,10 +2,10 @@
   <div id="teamPage">
     <van-search v-model="searchText" placeholder="搜索队伍" @search="onSearch"/>
     <van-tabs v-model:active="active" @change="onTabChange">
-      <van-tab title="公开" name="public" />
-      <van-tab title="加密" name="private" />
+      <van-tab title="公开" name="public"/>
+      <van-tab title="加密" name="private"/>
     </van-tabs>
-    <van-button class="add-button" type="primary"  icon="plus" @click="doAddTeam"/>
+    <van-button class="add-button" type="primary" icon="plus" @click="doAddTeam"/>
     <team-card-list :team-list="teamList"></team-card-list>
     <van-empty v-if="teamList?.length<1" description="搜索结果为空"/>
   </div>
@@ -19,6 +19,7 @@ import TeamCardList from "../components/TeamCardList.vue";
 import {onMounted, ref} from "vue";
 import myAxios from "../plugins/myAxios.ts";
 import {Toast} from "vant";
+import {formDate} from "../states/formatDate";
 
 const active = ref('public')
 const router = useRouter()
@@ -47,7 +48,7 @@ const doAddTeam = () => {
 
 const teamList = ref([])
 
-const listTeam = async (val='', status = 0) => {
+const listTeam = async (val = '', status = 0) => {
   const res = await myAxios.get("/team/list", {
     params: {
       searchText: val,
@@ -57,6 +58,14 @@ const listTeam = async (val='', status = 0) => {
   })
   if (res?.code === 0) {
     teamList.value = res.data;
+    teamList.value.map(one => {
+      one.createTime = one.createTime.split('T')[0];
+      one.expireTime = one.expireTime.split('T')[0];
+      return one;
+    })
+  } else if (res?.code === 40001) {
+    teamList.value = '';
+    Toast.fail('无相关队伍');
   } else {
     Toast.fail('加载队伍失败，请刷新重试')
   }
@@ -66,7 +75,7 @@ onMounted(() => {
   listTeam();
 })
 
-const onSearch =  (val) => {
+const onSearch = (val) => {
   listTeam(val)
 };
 </script>

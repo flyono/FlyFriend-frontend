@@ -51,6 +51,8 @@ const onClickRight = () => {
   router.push('/search')
 };
 
+
+
 </script>
 
 <style scoped>
