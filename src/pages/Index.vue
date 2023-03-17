@@ -4,10 +4,13 @@
       <van-switch v-model="isMatchMode" size="24"/>
     </template>
   </van-cell>
+
   <user-card-list :user-list="userList" :loading="loading"/>
+
   <van-skeleton title avatar :row="3" :loading="true">
     <div>实际内容</div>
   </van-skeleton>
+
   <van-empty v-if="!userList || userList.length<1" description="搜索结果为空"/>
 </template>
 
@@ -48,14 +51,15 @@ const loadData = async () => {
           Toast.fail('请求失败!');
         })
     if (userListData) {
-      userListData.forEach((user: UserType)=> {
+      userListData.forEach((user: UserType) => {
         if (user.tags) {
           user.tags = JSON.parse(user.tags)
         }
       })
       userList.value = userListData;
+      console.log(userList.value)
     }
-  }else {
+  } else {
     // 普通模式,用户
     userListData = await myAxios.get('/user/recommend', {
       params: {
@@ -71,7 +75,6 @@ const loadData = async () => {
           console.error('/user/recommend error', error);
           Toast.fail('请求失败!');
         })
-// console.log(userListData)
     if (userListData) {
       userListData.forEach((user: UserType) => {
         if (user.tags) {
@@ -83,11 +86,9 @@ const loadData = async () => {
   }
   loading.value = false;
 }
-
 watchEffect(() => {
   loadData();
 })
-
 
 </script>
 
