@@ -39,7 +39,7 @@ import {useRouter} from "vue-router";
 const router = useRouter();
 
 const searchText = ref('');
-// 标签列表-原数据 todo 采用数据库Tag标签
+// 标签列表-原数据 TODO 采用数据库Tag标签
 const originTagList = [
   {
     text: '性别',
@@ -63,7 +63,8 @@ const originTagList = [
     ],
   },
 ];
-let tagList = ref(originTagList);
+const tagList = ref(originTagList);
+
 /**
  * 搜索过滤
  * @param val

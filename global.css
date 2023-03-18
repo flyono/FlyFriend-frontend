@@ -13,3 +13,11 @@
     align-items: center;
 }
 
+.tagInfo {
+    font-size: 13px;
+    border: 2px solid cornflowerblue;
+    border-radius: 4px;
+    color: white;
+    background-color: cornflowerblue;
+    margin-top: -5px;
+}

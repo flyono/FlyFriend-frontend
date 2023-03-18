@@ -5,6 +5,7 @@ import * as VueRouter from 'vue-router';
 import routes from "./config/route";
 import 'vant/lib/index.css'
 import '/global.css'
+import { ConfigProvider } from 'vant';
 
 
 
@@ -15,7 +16,7 @@ app.use(NavBar);
 app.use(Icon);
 app.use(Tabbar);
 app.use(TabbarItem);
-
+app.use(ConfigProvider);
 // 创建路由实例并传递 `routes` 配置
 const router = VueRouter.createRouter({
     // 4. 内部提供了 history 模式的实现。为了简单起见，我们在这里使用 hash 模式。

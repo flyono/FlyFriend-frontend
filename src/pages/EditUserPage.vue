@@ -26,7 +26,7 @@
 
     <div v-if="editUser.type === 'image'" class="imgPosition">
       <van-uploader v-model="imageList" max-count="1" :after-read="afterRead"/>
-      <van-button size="mini" plain type="primary">更换头像</van-button>
+      <van-button size="mini" disabled plain type="primary">更换头像</van-button>
     </div>
 
     <div style="margin: 16px;">
