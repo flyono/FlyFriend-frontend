@@ -21,7 +21,6 @@
       </template>
       <template #origin-price>
 
-        <span/>
       </template>
       <template #footer>
 
@@ -41,14 +40,12 @@
 
 <script setup lang="ts">
 import {UserType} from "../models/user";
-import {useRoute, useRouter} from "vue-router";
+import {useRouter} from "vue-router";
 import {ref} from "vue";
 import {Dialog, Toast} from "vant";
-import {getCurrentUser} from "../services/user";
 import myAxios from "../plugins/myAxios";
 
 const router = useRouter();
-const route = useRoute;
 const VanDialog = Dialog.Component;
 
 const imageUrl =
@@ -83,15 +80,7 @@ const toEdit = (editKey: string, editName: string, currentValue: string, type: s
     }
   })
 }
-/**
- * 卡片样式设置
- */
-const themeVars = {
-  cardDescLineHeight: '18px',
-  cardFontSize: 'normal',
-  buttonPrimaryBorderColor: '#07c160',
-  buttonPrimaryBackgroundColor: '#07c160',
-};
+
 
 /**
  * 添加Tag
@@ -139,29 +128,34 @@ const originTagList = [
 const tagList = ref(originTagList);
 const onConfirm = async () => {
   prop.user.tags = activeIds;
-  const currentUser = await getCurrentUser();
   await myAxios.post("/user/update",{
-    "id": currentUser.id,
+    "id": prop.user.id,
     "tags": JSON.stringify(prop.user.tags)
   })
 }
 //移除标签
 const doClose = async (tag) => {
-  activeIds.value = activeIds.value.filter(item => {
+  activeIds.value = Array.from(activeIds.value).filter(item => {
     return item !== tag  //结果为true保留，false过滤
   })
   prop.user.tags = activeIds;
-  const currentUser = await getCurrentUser();
   await myAxios.post("/user/update",{
-    "id": currentUser.id,
-    "tags": JSON.stringify(prop.user.tags)
+    "id": prop.user.id,
+    "tags": JSON.stringify(prop.user.tags),
   })
 }
-
+/**
+ * 卡片样式设置
+ */
+const themeVars = {
+  cardDescLineHeight: '18px',
+  cardFontSize: 'normal',
+  buttonPrimaryBorderColor: '#07c160',
+  buttonPrimaryBackgroundColor: '#07c160',
+};
 /**
  * 个人信息 todo
  */
-const Profile = prop.user.profile;
 
 </script>
 
