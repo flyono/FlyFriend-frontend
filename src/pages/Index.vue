@@ -43,11 +43,16 @@ const loadData = async () => {
       },
     })
         .then(function (response) {
-          console.log('/user/match succeed', response);
+          // console.log('/user/match succeed', response);
+          if(response.code === 40101){
+            Toast.fail('请先登录!');
+          }else if(response.code === 0) {
+            Toast.success('已为你找到相似伙伴')
+          }
           return response?.data;  //返回数据  ?.可选链操作符，避免数据为null或undefined时报错
         })
         .catch(function (error) {
-          console.error('/user/match error', error);
+          // console.error('/user/match error', error);
           Toast.fail('请求失败!');
         })
     if (userListData) {
@@ -68,7 +73,7 @@ const loadData = async () => {
       },
     })
         .then(function (response) {
-          console.log('/user/recommend succeed', response);
+          // console.log('/user/recommend succeed', response);
           return response?.data.records;  //返回数据  ?.可选链操作符，避免数据为null或undefined时报错
         })
         .catch(function (error) {

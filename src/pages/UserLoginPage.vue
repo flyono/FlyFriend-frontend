@@ -53,7 +53,7 @@ const onSubmit = async () => {
     const redirectUrl = route.query?.redirect as string ?? '/';
     window.location.href = redirectUrl;
   }else {
-    Toast.fail('登录失败')
+    Toast.fail('账号或密码错误！')
   }
 };
 /**

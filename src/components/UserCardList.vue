@@ -25,9 +25,7 @@
 <script setup lang="ts">
 import {UserType} from "../models/user";
 
-const imageUrl =
-    process.env.NODE_ENV
-    === 'development' ?
+const imageUrl = process.env.NODE_ENV === 'development' ?
         'http://localhost:8080/api/images/' : 'https://backend.flyone.space/api/images/'
 
 interface UserCardListProps {

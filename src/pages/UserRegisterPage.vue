@@ -53,6 +53,7 @@ const userAccount = ref('')
 const userPassword = ref('')
 const checkPassword = ref('')
 const studyCode = ref('');
+const isDev = process.env.NODE_ENV === 'development';
 
 const onRegister = async () => {
   const res = await myAxios.post('/user/register',{
@@ -64,9 +65,11 @@ const onRegister = async () => {
   console.log(res, '用户注册');
   if (res.code === 0 && res.data){
     Toast.success('注册成功');
-    window.location.href = 'https://friends.flyone.space/user';
+    window.location.href = isDev ? 'http://localhost:5173/user' : 'https://friends.flyone.space/user';;
   }else {
-    Toast.fail('注册失败')
+    if(res.code === 40000){
+      Toast.fail(res.description)
+    }
   }
 
 }
