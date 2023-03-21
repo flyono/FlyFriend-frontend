@@ -1,5 +1,5 @@
 import myAxios from "../plugins/myAxios";
-import {getCurrentUserState, setCurrentUserState} from "../states/user";
+import {getCurrentUserState} from "../states/user";
 
 /**
  * 获取用户信息

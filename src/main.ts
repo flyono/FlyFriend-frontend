@@ -7,8 +7,6 @@ import 'vant/lib/index.css'
 import '/global.css'
 import { ConfigProvider } from 'vant';
 
-
-
 const app = createApp(App);
 
 app.use(Button);

@@ -120,8 +120,28 @@ const originTagList = [
       {text: 'C', id: 'C'},
       {text: 'Go', id: 'Go'},
       {text: 'Rust', id: 'Rust'},
-      {text: '前端', id: '前端'},
       {text: 'UI设计', id: '大四'},
+    ],
+  },
+  {
+    text: '爱好',
+    children: [
+      {text: '篮球', id: '篮球'},
+      {text: '乒乓球', id: '乒乓球'},
+      {text: '足球', id: '足球'},
+      {text: '羽毛球', id: '羽毛球'},
+      {text: '跑步', id: '跑步'},
+      {text: '游泳', id: '游泳'},
+      {text: '听音乐', id: '听音乐'},
+      {text: '玩游戏', id: '玩游戏'},
+    ],
+  },
+  {
+    text: '状态',
+    children: [
+      {text: '学习中', id: '学习中'},
+      {text: '求职中', id: '求职中'},
+      {text: '摆烂中', id: '摆烂中'},
     ],
   },
 ];

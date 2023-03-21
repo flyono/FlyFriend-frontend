@@ -1,4 +1,5 @@
 import axios, {AxiosInstance} from "axios";
+import {Toast} from "vant";
 
 const isDev = process.env.NODE_ENV === 'development';
 export const imageUrl = isDev ? 'http://localhost:8080/api/images/' : 'https://backend.flyone.space/api/images/';
@@ -11,7 +12,7 @@ myAxios.defaults.withCredentials = true;
 
 // 添加请求拦截器
 myAxios.interceptors.request.use(function (config) {
-    console.log("我要发请求拉")
+    // console.log("我要发请求拉")
     // 在发送请求之前做些什么
     return config;
 }, function (error) {
@@ -20,10 +21,11 @@ myAxios.interceptors.request.use(function (config) {
 });
 // 添加响应拦截器
 myAxios.interceptors.response.use(function (response) {
-    console.log("收到响应了", response)
+    // console.log("收到响应了", response)
     if (response?.data?.code === 40100) {
         const redirectUrl = window.location.href;
         window.location.href = `/user/login?redirect=${redirectUrl}`;
+        Toast.success('请先登录！')
     }
     // 2xx 范围内的状态码都会触发该函数。
     // 对响应数据做点什么

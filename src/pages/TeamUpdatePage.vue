@@ -121,7 +121,7 @@ const onSubmit = async () => {
   const res = await myAxios.post("/team/update", postData)
   if (res?.code === 0 && res.data) {
     Toast.success('更新成功');
-    router.push({
+    await router.push({
       path: '/team',
       replace: true
     });
